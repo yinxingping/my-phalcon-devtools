@@ -125,7 +125,7 @@ class Project extends Component
             $fsUtils->setDirectoryPermission($root, ['css' => 0777, 'js' => 0777]);
         }
 
-        if (system('which composer')) {
+        if ($composer=exec('which composer') && file_exists($this->path->getRootPath() . 'composer.json')) {
             $cmd = "cd " . $this->path->getRootPath() . ";composer install";
             `$cmd`;
         }
