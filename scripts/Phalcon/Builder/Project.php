@@ -24,6 +24,7 @@ use Phalcon\Builder\Project\Cli;
 use Phalcon\Builder\Project\Micro;
 use Phalcon\Builder\Project\Simple;
 use Phalcon\Builder\Project\Modules;
+use Phalcon\Builder\Project\BaseApi;
 use Phalcon\Utils\FsUtils;
 use SplFileInfo;
 
@@ -40,6 +41,7 @@ class Project extends Component
     CONST TYPE_SIMPLE  = 'simple';
     CONST TYPE_MODULES = 'modules';
     CONST TYPE_CLI     = 'cli';
+    CONST TYPE_BASEAPI    = 'baseapi';
 
     /**
      * Current Project Type
@@ -56,6 +58,7 @@ class Project extends Component
         self::TYPE_SIMPLE  => Simple::class,
         self::TYPE_MODULES => Modules::class,
         self::TYPE_CLI     => Cli::class,
+        self::TYPE_BASEAPI    => BaseApi::class,
     ];
 
     /**
@@ -117,7 +120,15 @@ class Project extends Component
 
         $root = new SplFileInfo($this->path->getRootPath('public'));
         $fsUtils = new FsUtils();
-        $fsUtils->setDirectoryPermission($root, ['css' => 0777, 'js' => 0777]);
+
+        if ($this->currentType != $this::TYPE_BASEAPI) {
+            $fsUtils->setDirectoryPermission($root, ['css' => 0777, 'js' => 0777]);
+        }
+
+        if (system('which composer')) {
+            $cmd = "cd " . $this->path->getRootPath() . ";composer install";
+            `$cmd`;
+        }
 
         if ($success === true) {
             $this->notifySuccess(sprintf(

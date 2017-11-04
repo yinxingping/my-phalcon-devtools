@@ -65,9 +65,7 @@ defined('DS') || define('DS', DIRECTORY_SEPARATOR);
 /**
  * @const TEMPLATE_PATH DevTools templates path.
  */
-//defined('TEMPLATE_PATH') || define('TEMPLATE_PATH', PTOOLSPATH . DS .'templates');
-defined('TEMPLATE_PATH') || define('TEMPLATE_PATH', '/Users/david/Workspace/PhalconDevTemplates/templates');
-
+defined('TEMPLATE_PATH') || define('TEMPLATE_PATH', PTOOLSPATH . DS .'templates');
 
 /**
  * @const ENV_PRODUCTION Application production stage.
