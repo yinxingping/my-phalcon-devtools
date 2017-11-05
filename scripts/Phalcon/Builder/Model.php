@@ -215,7 +215,6 @@ class Model extends Component
         } else {
             $configArray = $config->database;
         }
-
         // An array for use statements
         $uses = [];
 

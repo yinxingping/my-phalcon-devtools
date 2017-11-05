@@ -230,13 +230,25 @@ EOD;
 
     public function getInitialize(array $pieces)
     {
-        $templateInitialize = <<<EOD
+        $templateInitialize = <<<'EOD'
     /**
      * Initialize method for model.
      */
     public function initialize()
     {
 %s
+
+        $this->addBehavior(
+            new \Phalcon\Mvc\Model\Behavior\Timestampable(
+                [
+                    'beforeCreate' => [
+                        'field' => 'created_at',
+                        'format'=> 'Y-m-d H:i:s',
+                    ]
+                ]
+            )
+        );
+
     }
 EOD;
         return PHP_EOL.sprintf($templateInitialize, rtrim(join('', $pieces))).PHP_EOL;
