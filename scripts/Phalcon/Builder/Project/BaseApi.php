@@ -40,6 +40,7 @@ class BaseApi extends ProjectBuilder
         'app/controllers',
         'app/migrations',
         'public',
+        'schemas',
         '.phalcon'
     ];
 
