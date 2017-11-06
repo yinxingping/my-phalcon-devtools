@@ -38,6 +38,20 @@ class ControllerBase extends \Phalcon\Mvc\Controller
         return $messages;
     }
 
+    protected function getJsonRawBody(Array $filter = [])
+    {
+        $params = $this->request->getJsonRawBody();
+        foreach ($params as $k=>$v) {
+            if (!in_array($k, $filter)) {
+                unset($params->$k);
+                continue;
+            }
+            $params->$k = trim($v);
+        }
+
+        return $params;
+    }
+
     // 记录SQL日志
     private function writeDbLog()
     {
