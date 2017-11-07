@@ -43,7 +43,7 @@ $di->setShared('db', function () {
     return $connection;
 });
 
-$di->setShared('Logger', function () {
+$di->setShared('logger', function () {
     return Phalcon\Logger\Factory::load($this->getConfig()->logger);
 });
 
@@ -57,12 +57,5 @@ $di->setShared('modelsMetadata', function () {
     } else {
         return new Phalcon\Mvc\Model\MetaData\Memory();
     }
-});
-
-$di->setShared('security', function () {
-    $security = new \Phalcon\Security();
-    $security->setWorkFactor(12);
-
-    return $security;
 });
 
