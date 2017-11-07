@@ -33,7 +33,7 @@ return new \Phalcon\Config([
     'application' => [
         'modelsDir'      => APP_PATH . '/models/',
         'controllersDir' => APP_PATH . '/controllers/',
-        'migrationsDir'  => BASE_PATH . '/migrations/',
+        'migrationsDir'  => APP_PATH . '/migrations/',
         'baseUri'        => '/',
     ],
 
