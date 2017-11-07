@@ -19,8 +19,8 @@ return new \Phalcon\Config([
     'database' => [
         'adapter'    => 'Mysql',
         'host'     => getenv('DB_HOST') ?: 'localhost',
-        'username' => getenv('DB_USERNAME') ?: 'user',
-        'password' => getenv('DB_PASSWORD') ?: 'User@123456',
+        'username' => getenv('DB_USERNAME') ?: 'root',
+        'password' => getenv('DB_PASSWORD') ?: 'test123456',
         'dbname'   => getenv('DB_DATABASE') ?: 'qin_user',
         'charset'    => 'utf8',
     ],
@@ -28,7 +28,6 @@ return new \Phalcon\Config([
     'redis' => [
         'host'       => getenv('REDIS_HOST') ?: '127.0.0.1',
         'port'       => getenv('REDIS_PORT') ?: '6379',
-        'persistent' => 1,
     ],
 
     'application' => [
