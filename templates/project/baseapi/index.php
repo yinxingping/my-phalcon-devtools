@@ -20,7 +20,7 @@ if (getenv('APP_ENV') == 'production') {
 }
 ini_set('date.timezone', 'Asia/Shanghai');
 ini_set('display_errors', 'off');
-ini_set('error_log', LOG_PATH . '/error_' . date('Ymd') . '.log');
+ini_set('error_log', LOG_PATH . '/' .getenv('APP_NAME', 'appname') . '_error_' . date('Ymd') . '.log');
 
 try {
 
