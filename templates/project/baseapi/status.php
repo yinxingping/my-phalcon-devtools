@@ -13,11 +13,10 @@ define('STATUS',[
     'exception' => [
         'code' => EXCEPTION,
     ],
-    'password_invalid' => [
+    'record_not_exists' => [
         'code' => DB_ERROR,
-        'message' => '密码必须位6-16位英文字母、数字或特殊字符',
-        'field' => 'password',
-        'type' => 'password_invalid',
+        'message' => '要操作的记录不存在',
+        'type' => 'record_not_exists',
     ],
 ]);
 

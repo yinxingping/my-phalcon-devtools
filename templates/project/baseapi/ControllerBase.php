@@ -10,7 +10,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 
     protected function sendContent($status, $messages=null)
     {
-        $messages = $messages === null ?? STATUS[$status]['message'] ?? '无话可说';
+        $messages = $messages ?? STATUS[$status]['message'] ?? '无话可说';
 
         $this->response->setJsonContent([
             'code' => STATUS[$status]['code'],
