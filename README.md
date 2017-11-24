@@ -8,6 +8,7 @@
     * 出于安全和部署便利考虑，参考laravel增加了.env环境参数设置文件
 2. 新增项目模版
     * baseapi
+    * simpleapi
 
 ## baseapi项目模版介绍
 
@@ -18,6 +19,15 @@
 5. 增加了统一的输出状态配置文件: config/status.php；
 6. production与其他环境采用不同的metadata缓存方式，提高性能；
 7. 增加了错误日志和SQL日志；
+
+## simpleapi项目模版介绍
+
+1. 基于micro项目模版修改，适用于不使用数据库，仅提供简单功能的API；
+2. 去掉了所有与前端相关的处理（如css,js等）；
+3. 提供了统一的json输出方法（包括错误和异常状况下的输出）；
+4. 增加了统一的输出状态配置文件: config/status.php；
+5. production与其他环境采用不同的metadata缓存方式，提高性能；
+6. 增加了错误日志；
 
 ## 其余注意事项
 1. 用工具生成model时要使用参数：--excludefields=updated_at

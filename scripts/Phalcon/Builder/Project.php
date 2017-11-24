@@ -25,6 +25,7 @@ use Phalcon\Builder\Project\Micro;
 use Phalcon\Builder\Project\Simple;
 use Phalcon\Builder\Project\Modules;
 use Phalcon\Builder\Project\BaseApi;
+use Phalcon\Builder\Project\SimpleApi;
 use Phalcon\Utils\FsUtils;
 use SplFileInfo;
 
@@ -42,6 +43,7 @@ class Project extends Component
     CONST TYPE_MODULES = 'modules';
     CONST TYPE_CLI     = 'cli';
     CONST TYPE_BASEAPI    = 'baseapi';
+    CONST TYPE_SIMPLEAPI= 'simpleapi';
 
     /**
      * Current Project Type
@@ -59,6 +61,7 @@ class Project extends Component
         self::TYPE_MODULES => Modules::class,
         self::TYPE_CLI     => Cli::class,
         self::TYPE_BASEAPI    => BaseApi::class,
+        self::TYPE_SIMPLEAPI  => SimpleApi::class,
     ];
 
     /**
@@ -121,7 +124,7 @@ class Project extends Component
         $root = new SplFileInfo($this->path->getRootPath('public'));
         $fsUtils = new FsUtils();
 
-        if ($this->currentType != $this::TYPE_BASEAPI) {
+        if (strpos($this->currentType, 'api') === false) {
             $fsUtils->setDirectoryPermission($root, ['css' => 0777, 'js' => 0777]);
         }
 
@@ -132,7 +135,7 @@ class Project extends Component
 
         if ($success === true) {
             $this->notifySuccess(sprintf(
-                "Project '%s' was successfully created.\nPlease choose a password and username to use Database connection. Used default:'root' without password.",
+                "Project '%s' was successfully created.",
                 $this->options->get('name')
             ));
         }
