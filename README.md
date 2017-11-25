@@ -9,6 +9,7 @@
 2. 新增项目模版
     * baseapi
     * simpleapi
+    * api
 
 ## baseapi项目模版介绍
 
@@ -26,8 +27,16 @@
 2. 去掉了所有与前端相关的处理（如css,js等）；
 3. 提供了统一的json输出方法（包括错误和异常状况下的输出）；
 4. 增加了统一的输出状态配置文件: config/status.php；
-5. production与其他环境采用不同的metadata缓存方式，提高性能；
+5. 增加了错误日志；
+
+## api项目模版介绍
+1. 基于micro项目模版修改，适用于连接客户端和后端数据层的中间API；
+2. 去掉了html/css/js相关处理；
+3. 路由处理替换为controller模式，app.php功能更专一；
+4. 提供了统一的json输出方法（包括错误和异常状况下的输出）；
+5. 增加了统一的输出状态配置文件: config/status.php；
 6. 增加了错误日志；
+
 
 ## 其余注意事项
 1. 用工具生成model时要使用参数：--excludefields=updated_at

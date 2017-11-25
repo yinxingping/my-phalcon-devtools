@@ -21,13 +21,13 @@
 namespace Phalcon\Builder\Project;
 
 /**
- * BaseApi
+ * Api
  *
- * Builder to create BaseApi application skeletons
+ * Builder to create Api application skeletons
  *
  * @package Phalcon\Builder\Project
  */
-class BaseApi extends ProjectBuilder
+class Api extends ProjectBuilder
 {
     /**
      * Project directories
@@ -36,11 +36,8 @@ class BaseApi extends ProjectBuilder
     protected $projectDirectories = [
         'app',
         'app/config',
-        'app/models',
         'app/controllers',
-        'app/migrations',
         'public',
-        'schemas',
         '.phalcon'
     ];
 
@@ -54,39 +51,39 @@ class BaseApi extends ProjectBuilder
         //仅支持config.php
         $type = 'php';
 
-        $getFile = $this->options->get('templatePath') . '/project/baseapi/config.' . $type;
+        $getFile = $this->options->get('templatePath') . '/project/api/config.' . $type;
         $putFile = $this->options->get('projectPath') . 'app/config/config.' . $type;
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
-        $getFile = $this->options->get('templatePath') . '/project/baseapi/services.php';
+        $getFile = $this->options->get('templatePath') . '/project/api/services.php';
         $putFile = $this->options->get('projectPath') . 'app/config/services.php';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
-        $getFile = $this->options->get('templatePath') . '/project/baseapi/loader.php';
+        $getFile = $this->options->get('templatePath') . '/project/api/loader.php';
         $putFile = $this->options->get('projectPath') . 'app/config/loader.php';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
-        $getFile = $this->options->get('templatePath') . '/project/baseapi/app.php';
+        $getFile = $this->options->get('templatePath') . '/project/api/app.php';
         $putFile = $this->options->get('projectPath') . 'app/app.php';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
-        $getFile = $this->options->get('templatePath') . '/project/baseapi/status.php';
+        $getFile = $this->options->get('templatePath') . '/project/api/status.php';
         $putFile = $this->options->get('projectPath') . 'app/config/status.php';
         $this->generateFile($getFile, $putFile);
 
-        $getFile = $this->options->get('templatePath') . '/project/baseapi/composer.json';
+        $getFile = $this->options->get('templatePath') . '/project/api/composer.json';
         $putFile = $this->options->get('projectPath') . 'composer.json';
         $this->generateFile($getFile, $putFile);
 
-        $getFile = $this->options->get('templatePath') . '/project/baseapi/env.example';
+        $getFile = $this->options->get('templatePath') . '/project/api/env.example';
         $putFile = $this->options->get('projectPath') . '.env';
         $this->generateFile($getFile, $putFile);
 
-        $getFile = $this->options->get('templatePath') . '/project/baseapi/env.example';
+        $getFile = $this->options->get('templatePath') . '/project/api/env.example';
         $putFile = $this->options->get('projectPath') . 'env.example';
         $this->generateFile($getFile, $putFile);
 
-        $getFile = $this->options->get('templatePath') . '/project/baseapi/README.md';
+        $getFile = $this->options->get('templatePath') . '/project/api/README.md';
         $putFile = $this->options->get('projectPath') . 'README.md';
         $this->generateFile($getFile, $putFile);
 
@@ -100,7 +97,7 @@ class BaseApi extends ProjectBuilder
      */
     private function createBootstrapFile()
     {
-        $getFile = $this->options->get('templatePath') . '/project/baseapi/index.php';
+        $getFile = $this->options->get('templatePath') . '/project/api/index.php';
         $putFile = $this->options->get('projectPath') . 'public/index.php';
         $this->generateFile($getFile, $putFile);
 
@@ -112,11 +109,11 @@ class BaseApi extends ProjectBuilder
      */
     private function createControllers()
     {
-        $getFile = $this->options->get('templatePath') . '/project/baseapi/ControllerBase.php';
+        $getFile = $this->options->get('templatePath') . '/project/api/ControllerBase.php';
         $putFile = $this->options->get('projectPath') . 'app/controllers/ControllerBase.php';
         $this->generateFile($getFile, $putFile);
 
-        $getFile = $this->options->get('templatePath') . '/project/baseapi/IndexController.php';
+        $getFile = $this->options->get('templatePath') . '/project/api/IndexController.php';
         $putFile = $this->options->get('projectPath') . 'app/controllers/IndexController.php';
         $this->generateFile($getFile, $putFile);
 
@@ -132,7 +129,6 @@ class BaseApi extends ProjectBuilder
     {
         $this
             ->buildDirectories()
-            ->getVariableValues()
             ->createConfig()
             ->createBootstrapFile()
             ->createControllers();
@@ -140,3 +136,4 @@ class BaseApi extends ProjectBuilder
         return true;
     }
 }
+

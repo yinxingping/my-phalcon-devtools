@@ -66,6 +66,10 @@ class SimpleApi extends ProjectBuilder
         $putFile = $this->options->get('projectPath') . '.env';
         $this->generateFile($getFile, $putFile);
 
+        $getFile = $this->options->get('templatePath') . '/project/simpleapi/env.example';
+        $putFile = $this->options->get('projectPath') . 'env.example';
+        $this->generateFile($getFile, $putFile);
+
         $getFile = $this->options->get('templatePath') . '/project/simpleapi/README.md';
         $putFile = $this->options->get('projectPath') . 'README.md';
         $this->generateFile($getFile, $putFile);

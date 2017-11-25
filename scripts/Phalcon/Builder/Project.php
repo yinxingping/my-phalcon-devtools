@@ -26,6 +26,7 @@ use Phalcon\Builder\Project\Simple;
 use Phalcon\Builder\Project\Modules;
 use Phalcon\Builder\Project\BaseApi;
 use Phalcon\Builder\Project\SimpleApi;
+use Phalcon\Builder\Project\Api;
 use Phalcon\Utils\FsUtils;
 use SplFileInfo;
 
@@ -44,6 +45,7 @@ class Project extends Component
     CONST TYPE_CLI     = 'cli';
     CONST TYPE_BASEAPI    = 'baseapi';
     CONST TYPE_SIMPLEAPI= 'simpleapi';
+    CONST TYPE_API= 'api';
 
     /**
      * Current Project Type
@@ -62,6 +64,7 @@ class Project extends Component
         self::TYPE_CLI     => Cli::class,
         self::TYPE_BASEAPI    => BaseApi::class,
         self::TYPE_SIMPLEAPI  => SimpleApi::class,
+        self::TYPE_API  => Api::class,
     ];
 
     /**
@@ -124,10 +127,12 @@ class Project extends Component
         $root = new SplFileInfo($this->path->getRootPath('public'));
         $fsUtils = new FsUtils();
 
+        //项目类别名称中带api时，不生成css和js目录
         if (strpos($this->currentType, 'api') === false) {
             $fsUtils->setDirectoryPermission($root, ['css' => 0777, 'js' => 0777]);
         }
 
+        //安装指定的程序包
         if ($composer=exec('which composer') && file_exists($this->path->getRootPath() . 'composer.json')) {
             $cmd = "cd " . $this->path->getRootPath() . ";composer install";
             `$cmd`;
