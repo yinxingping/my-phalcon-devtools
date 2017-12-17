@@ -21,7 +21,7 @@ return new \Phalcon\Config([
         'host'     => getenv('DB_HOST') ?: 'localhost',
         'username' => getenv('DB_USERNAME') ?: 'root',
         'password' => getenv('DB_PASSWORD') ?: 'test123456',
-        'dbname'   => getenv('DB_DATABASE') ?: 'qin_user',
+        'dbname'   => getenv('DB_DATABASE') ?: '',
         'charset'    => 'utf8',
     ],
 

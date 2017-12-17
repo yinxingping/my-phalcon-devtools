@@ -12,14 +12,9 @@ return new \Phalcon\Config([
     'version' => '1.0',
     'appName' => $appName,
 
-    'sessionRedis' => [
+    'redis' => [
         'host'       => getenv('REDIS_HOST') ?: '127.0.0.1',
         'port'       => getenv('REDIS_PORT') ?: '6379',
-        'uniqueId'   => getenv('SESSION_UNIQUEID') ?: '',
-        'persistent' => false,
-        'lifetime'   => 3600,
-        'prefix'     => '',
-        'index'      => 1,
     ],
 
     'application' => [
