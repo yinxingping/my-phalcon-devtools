@@ -1,15 +1,9 @@
 <?php
 
-/**
- * Shared configuration service
- */
 $di->setShared('config', function () {
     return include APP_PATH . '/config/config.php';
 });
 
-/**
- * Database connection is created based in the parameters defined in the configuration file
- */
 $di->setShared('db', function () {
     $config = $this->getConfig();
 
@@ -22,10 +16,6 @@ $di->setShared('db', function () {
         'dbname'   => $config->database->dbname,
         'charset'  => $config->database->charset
     ];
-
-    if ($config->database->adapter == 'Postgresql') {
-        unset($params['charset']);
-    }
 
     $connection = new $class($params);
 
