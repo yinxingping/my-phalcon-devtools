@@ -8,8 +8,6 @@ define('APP_PATH', BASE_PATH . '/app');
 define('LOG_PATH', BASE_PATH . '/logs');
 
 include(BASE_PATH . '/vendor/autoload.php');
-
-// 导入.env环境变量
 $dotenv = new Dotenv\Dotenv(BASE_PATH);
 $dotenv->load();
 
