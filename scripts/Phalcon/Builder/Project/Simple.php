@@ -154,6 +154,22 @@ class Simple extends ProjectBuilder
         $putFile = $this->options->get('projectPath') . 'app/config/router.php';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
+        $getFile = $this->options->get('templatePath') . '/project/simple/composer.json';
+        $putFile = $this->options->get('projectPath') . 'composer.json';
+        $this->generateFile($getFile, $putFile);
+
+        $getFile = $this->options->get('templatePath') . '/project/simple/env.example';
+        $putFile = $this->options->get('projectPath') . '.env';
+        $this->generateFile($getFile, $putFile);
+
+        $getFile = $this->options->get('templatePath') . '/project/simple/env.example';
+        $putFile = $this->options->get('projectPath') . 'env.example';
+        $this->generateFile($getFile, $putFile);
+
+        $getFile = $this->options->get('templatePath') . '/project/simple/README.md';
+        $putFile = $this->options->get('projectPath') . 'README.md';
+        $this->generateFile($getFile, $putFile);
+
         return $this;
     }
 
@@ -194,14 +210,14 @@ class Simple extends ProjectBuilder
     {
         $this
             ->buildDirectories()
-            ->getVariableValues()
+            // ->getVariableValues()
             ->createConfig()
             ->createBootstrapFiles()
-            ->createHtaccessFiles()
+            // ->createHtaccessFiles()
             ->createControllerBase()
             ->createIndexViewFiles()
             ->createControllerFile()
-            ->createHtrouterFile();
+            /* ->createHtrouterFile()*/;
 
         $this->options->contains('enableWebTools') && Tools::install($this->options->get('projectPath'));
 

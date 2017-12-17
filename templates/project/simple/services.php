@@ -1,23 +1,20 @@
 <?php
 
 use Phalcon\Mvc\View;
-use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\Url as UrlResolver;
+use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
-use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
-use Phalcon\Session\Adapter\Files as SessionAdapter;
+use Phalcon\Session\Adapter\Redis as SessionAdapter;
 use Phalcon\Flash\Direct as Flash;
 
-/**
- * Shared configuration service
- */
 $di->setShared('config', function () {
     return @@configLoader@@;
 });
 
-/**
- * The URL component is used to generate all kind of urls in the application
- */
+$di->setShared('profiler', function () {
+    return new Phalcon\Db\Profiler();
+});
+
 $di->setShared('url', function () {
     $config = $this->getConfig();
 
@@ -27,9 +24,6 @@ $di->setShared('url', function () {
     return $url;
 });
 
-/**
- * Setting up the view component
- */
 $di->setShared('view', function () {
     $config = $this->getConfig();
 
@@ -51,17 +45,29 @@ $di->setShared('view', function () {
             return $volt;
         },
         '.phtml' => PhpEngine::class
-
     ]);
 
     return $view;
 });
 
-/**
- * Database connection is created based in the parameters defined in the configuration file
- */
 $di->setShared('db', function () {
     $config = $this->getConfig();
+
+    // 记录sql详情
+    $eventManager = new \Phalcon\Events\Manager();
+    $profiler = $this->getProfiler();
+
+    $eventManager->attach(
+        'db',
+        function ($event, $connection) use ($profiler) {
+            if ($event->getType() === 'beforeQuery') {
+                $profiler->startProfile($connection->getSQLStatement());
+            }
+            if ($event->getType() === 'afterQuery') {
+                $profiler->stopProfile();
+            }
+        }
+    );
 
     $class = 'Phalcon\Db\Adapter\Pdo\\' . $config->database->adapter;
     $params = [
@@ -72,41 +78,44 @@ $di->setShared('db', function () {
         'charset'  => $config->database->charset
     ];
 
-    if ($config->database->adapter == 'Postgresql') {
-        unset($params['charset']);
-    }
-
     $connection = new $class($params);
+
+    $connection->setEventsManager($eventManager);
 
     return $connection;
 });
 
-
-/**
- * If the configuration specify the use of metadata adapter use it or use memory otherwise
- */
-$di->setShared('modelsMetadata', function () {
-    return new MetaDataAdapter();
+$di->setShared('logger', function () {
+    return Phalcon\Logger\Factory::load($this->getConfig()->logger);
 });
 
-/**
- * Register the session flash service with the Twitter Bootstrap classes
+/*
+ * Memory仅当次请求时起作用，适合于开发环境
+ */
+$di->setShared('modelsMetadata', function () {
+    if (getenv('APP_ENV') === 'production') {
+        return new Phalcon\Mvc\Model\Metadata\Redis($this->getConfig()->redis);
+    } else {
+        return new Phalcon\Mvc\Model\MetaData\Memory();
+    }
+});
+
+/*
+ * bootstrap4.x
  */
 $di->set('flash', function () {
     return new Flash([
-        'error'   => 'alert alert-danger',
-        'success' => 'alert alert-success',
-        'notice'  => 'alert alert-info',
-        'warning' => 'alert alert-warning'
+        'error'   => 'text-danger',
+        'success' => 'text-success',
+        'notice'  => 'text-info',
+        'warning' => 'text-warning'
     ]);
 });
 
-/**
- * Start the session the first time some component request the session service
- */
 $di->setShared('session', function () {
-    $session = new SessionAdapter();
+    $session = new SessionAdapter($this->getConfig()->redis);
     $session->start();
 
     return $session;
 });
+
