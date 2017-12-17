@@ -8,8 +8,6 @@ define('APP_PATH', BASE_PATH . '/app');
 define('LOG_PATH', BASE_PATH . '/logs');
 
 include(BASE_PATH . '/vendor/autoload.php');
-
-// 导入.env环境变量
 $dotenv = new Dotenv\Dotenv(BASE_PATH);
 $dotenv->load();
 
@@ -25,15 +23,10 @@ ini_set('error_log', LOG_PATH . '/' .getenv('APP_NAME', 'appname') . '_error_' .
 try {
 
     $di = new FactoryDefault();
-
     include APP_PATH . '/config/services.php';
-
     $config = $di->getConfig();
-
     include APP_PATH . '/config/loader.php';
-
     $app = new Micro($di);
-
     include APP_PATH . '/app.php';
 
     $app->handle();
