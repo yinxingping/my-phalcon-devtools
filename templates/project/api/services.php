@@ -16,3 +16,4 @@ $di->setShared('session', function () {
 
     return $session;
 });
+

@@ -15,10 +15,10 @@ return new \Phalcon\Config([
     'sessionRedis' => [
         'host'       => getenv('REDIS_HOST') ?: '127.0.0.1',
         'port'       => getenv('REDIS_PORT') ?: '6379',
-        'uniqueId'   => getenv('SESSION_UNIQUEID') ?: 'qin-session',
+        'uniqueId'   => getenv('SESSION_UNIQUEID') ?: '',
         'persistent' => false,
         'lifetime'   => 3600,
-        'prefix'     => 'qin',
+        'prefix'     => '',
         'index'      => 1,
     ],
 
