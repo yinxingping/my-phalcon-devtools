@@ -179,7 +179,29 @@ API类项目模版都采用了Phalcon提供的MVC微应用框架（Phalcon/Mvc/M
 * 数据库：MySQL
 * 缓存和Session：Redis
 
-八、相关链接
+八、安装和配置
+---
+
+``` 
+# 以下配置可用于linux和macOS
+
+# 第一步：下载my-phalcon-devtools到指定目录，如/home/myname/public
+cd /home/myname/public;
+git clone git@github.com:yinxingping/my-phalcon-devtools.git
+
+# 第二步：配置~/.bashrc,添加以下项
+export PTOOLSPATH=/home/myname/public/my-phalcon-devtools
+export PATH=$PTOOLSPATH:$PATH
+
+# 第三步：验证
+cd /home/myname/Workspace;
+phalcon project my_first_phalcon microweb
+
+```
+
+看到绿色的"Success: Project 'my_first_phalcon' was successfully created..."即表示成功。
+
+九、相关链接
 ---
 
 phalcon-devtools原项目地址：
