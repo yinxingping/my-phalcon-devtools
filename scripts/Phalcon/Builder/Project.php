@@ -26,7 +26,7 @@ use Phalcon\Builder\Project\Simple;
 use Phalcon\Builder\Project\Modules;
 use Phalcon\Builder\Project\BaseApi;
 use Phalcon\Builder\Project\SimpleApi;
-use Phalcon\Builder\Project\Api;
+use Phalcon\Builder\Project\FullApi;
 use Phalcon\Utils\FsUtils;
 use SplFileInfo;
 
@@ -45,7 +45,7 @@ class Project extends Component
     CONST TYPE_CLI     = 'cli';
     CONST TYPE_BASEAPI    = 'baseapi';
     CONST TYPE_SIMPLEAPI= 'simpleapi';
-    CONST TYPE_API= 'api';
+    CONST TYPE_FULLAPI= 'fullapi';
 
     /**
      * Current Project Type
@@ -64,7 +64,7 @@ class Project extends Component
         self::TYPE_CLI     => Cli::class,
         self::TYPE_BASEAPI    => BaseApi::class,
         self::TYPE_SIMPLEAPI  => SimpleApi::class,
-        self::TYPE_API  => Api::class,
+        self::TYPE_FULLAPI  => FullApi::class,
     ];
 
     /**

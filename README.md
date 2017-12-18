@@ -15,7 +15,7 @@
 
 1. 基于micro项目模版修改，适用于紧贴数据库的基础API项目；
 2. 去掉了所有与前端相关的处理（如css,js等）；
-3. 路由处理替换为controller模式，app.php功能更专一；
+3. 路由处理替换为controller模式；
 4. 提供了统一的json输出方法（包括错误和异常状况下的输出）；
 5. 增加了统一的输出状态配置文件: config/status.php；
 6. production与其他环境采用不同的metadata缓存方式，提高性能；
@@ -29,13 +29,14 @@
 4. 增加了统一的输出状态配置文件: config/status.php；
 5. 增加了错误日志；
 
-## api项目模版介绍
-1. 基于micro项目模版修改，适用于连接客户端和后端数据层的中间API；
+## fullapi项目模版介绍
+1. 基于micro项目模版修改，适用于直接为客户端提供服务的API，支持session，可以访问数据库，也可以访问其他API；
 2. 去掉了html/css/js相关处理；
-3. 路由处理替换为controller模式，app.php功能更专一；
+3. 路由处理替换为controller模式；
 4. 提供了统一的json输出方法（包括错误和异常状况下的输出）；
 5. 增加了统一的输出状态配置文件: config/status.php；
-6. 增加了错误日志；
+6. production与其他环境采用不同的metadata缓存方式，提高性能；
+7. 增加了错误日志和SQL日志；
 
 
 ## 其余注意事项
