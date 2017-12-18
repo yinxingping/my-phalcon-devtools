@@ -21,13 +21,13 @@
 namespace Phalcon\Builder\Project;
 
 /**
- * Micro
+ * MicroWeb
  *
- * Builder to create Micro application skeletons
+ * Builder to create MicroWeb application skeletons
  *
  * @package Phalcon\Builder\Project
  */
-class Micro extends ProjectBuilder
+class MicroWeb extends ProjectBuilder
 {
     /**
      * Project directories
@@ -39,6 +39,8 @@ class Micro extends ProjectBuilder
         'app/models',
         'app/views',
         'app/migrations',
+        'schemas',
+        'logs',
         'public',
         'public/img',
         'public/css',
@@ -67,7 +69,7 @@ class Micro extends ProjectBuilder
         if (file_exists($this->options->get('projectPath') . 'public/.htaccess') == false) {
             file_put_contents(
                 $this->options->get('projectPath').'public/.htaccess',
-                file_get_contents($this->options->get('templatePath') . '/project/micro/htaccess')
+                file_get_contents($this->options->get('templatePath') . '/project/microweb/htaccess')
             );
         }
 
@@ -88,11 +90,11 @@ class Micro extends ProjectBuilder
     {
         $engine = $this->options->get('templateEngine') == 'volt' ? 'volt' : 'phtml';
 
-        $getFile = $this->options->get('templatePath') . '/project/micro/views/index.' . $engine;
+        $getFile = $this->options->get('templatePath') . '/project/microweb/views/index.' . $engine;
         $putFile = $this->options->get('projectPath').'app/views/index.' . $engine;
         $this->generateFile($getFile, $putFile);
 
-        $getFile = $this->options->get('templatePath') . '/project/micro/views/404.' . $engine;
+        $getFile = $this->options->get('templatePath') . '/project/microweb/views/404.' . $engine;
         $putFile = $this->options->get('projectPath').'app/views/404.' . $engine;
         $this->generateFile($getFile, $putFile);
 
@@ -108,19 +110,19 @@ class Micro extends ProjectBuilder
     {
         $type = $this->options->contains('useConfigIni') ? 'ini' : 'php';
 
-        $getFile = $this->options->get('templatePath') . '/project/micro/config.' . $type;
+        $getFile = $this->options->get('templatePath') . '/project/microweb/config.' . $type;
         $putFile = $this->options->get('projectPath') . 'app/config/config.' . $type;
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
-        $getFile = $this->options->get('templatePath') . '/project/micro/services.php';
+        $getFile = $this->options->get('templatePath') . '/project/microweb/services.php';
         $putFile = $this->options->get('projectPath') . 'app/config/services.php';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
-        $getFile = $this->options->get('templatePath') . '/project/micro/loader.php';
+        $getFile = $this->options->get('templatePath') . '/project/microweb/loader.php';
         $putFile = $this->options->get('projectPath') . 'app/config/loader.php';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
-        $getFile = $this->options->get('templatePath') . '/project/micro/app.php';
+        $getFile = $this->options->get('templatePath') . '/project/microweb/app.php';
         $putFile = $this->options->get('projectPath') . 'app/app.php';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
@@ -134,7 +136,7 @@ class Micro extends ProjectBuilder
      */
     private function createBootstrapFile()
     {
-        $getFile = $this->options->get('templatePath') . '/project/micro/index.php';
+        $getFile = $this->options->get('templatePath') . '/project/microweb/index.php';
         $putFile = $this->options->get('projectPath') . 'public/index.php';
         $this->generateFile($getFile, $putFile);
 
@@ -150,10 +152,10 @@ class Micro extends ProjectBuilder
     {
         $this
             ->buildDirectories()
-            ->getVariableValues()
+            // ->getVariableValues()
             ->createConfig()
             ->createBootstrapFile()
-            ->createHtaccessFiles()
+            // ->createHtaccessFiles()
             ->createIndexViewFiles();
 
         return true;

@@ -21,7 +21,7 @@
 namespace Phalcon\Builder;
 
 use Phalcon\Builder\Project\Cli;
-use Phalcon\Builder\Project\Micro;
+use Phalcon\Builder\Project\MicroWeb;
 use Phalcon\Builder\Project\Web;
 use Phalcon\Builder\Project\Modules;
 use Phalcon\Builder\Project\BaseApi;
@@ -39,7 +39,7 @@ use SplFileInfo;
  */
 class Project extends Component
 {
-    CONST TYPE_MICRO   = 'micro';
+    CONST TYPE_MICROWEB   = 'microweb';
     CONST TYPE_WEB = 'web';
     CONST TYPE_MODULES = 'modules';
     CONST TYPE_CLI     = 'cli';
@@ -58,7 +58,7 @@ class Project extends Component
      * @var array
      */
     private $_types = [
-        self::TYPE_MICRO   => Micro::class,
+        self::TYPE_MICROWEB   => MicroWeb::class,
         self::TYPE_WEB  => Web::class,
         self::TYPE_MODULES => Modules::class,
         self::TYPE_CLI     => Cli::class,
@@ -132,15 +132,15 @@ class Project extends Component
             $fsUtils->setDirectoryPermission($root, ['css' => 0777, 'js' => 0777]);
         }
 
-        //安装指定的程序包
-        if ($composer=exec('which composer') && file_exists($this->path->getRootPath() . 'composer.json')) {
-            $cmd = "cd " . $this->path->getRootPath() . ";composer install";
-            `$cmd`;
-        }
+        //安装指定的程序包。为加速创建项目，依赖包安装待项目生成后手动运行composer install命令
+//        if ($composer=exec('which composer') && file_exists($this->path->getRootPath() . 'composer.json')) {
+//            $cmd = "cd " . $this->path->getRootPath() . ";composer install";
+//            `$cmd`;
+//        }
 
         if ($success === true) {
             $this->notifySuccess(sprintf(
-                "Project '%s' was successfully created.",
+                "Project '%s' was successfully created.Please run 'composer install' to install relevant dependencies packages in this project directory.",
                 $this->options->get('name')
             ));
         }
