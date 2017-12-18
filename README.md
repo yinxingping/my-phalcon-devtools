@@ -1,12 +1,12 @@
 # 关于My Phalcon Devtools
 
-本项目基于Phalcon官方开发工具Phalcon devtools二次开发，根据实际开发需要，对原有模版进行了改进，并增加了若干常用API模版，帮你大幅提升开发效率。
+本项目基于[Phalcon](https://phalconphp.com)的官方开发工具[phalcon-devtools](https://github.com/phalcon/phalcon-devtools)二次开发，根据实际开发需要，对原有模版进行了改进，并增加了若干常用API模版，利用这些模版可以大幅提升开发效率。
 
 一、整体变动
 ---
 #### 1、增加.env配置
 
-官方提供的模版没有将开发、测试、生产环境的配置文件分开，对于利用github公开方式托管代码的个人和小团队来说配置文件更涉及安全性，my-phalcon-devtools借助<code>vlucas/phpdotenv</code>实现配置和代码分开，开发环境的.env开发人员自己管理，测试和生产环境的.env由专门的运维人员管理和发布。
+官方提供的模版没有将开发、测试、生产环境的配置文件分开，对于利用github公开方式托管代码的个人和小团队来说配置文件更涉及安全性，my-phalcon-devtools借助`vlucas/phpdotenv`实现配置和代码分开，开发环境的.env开发人员自己管理，测试和生产环境的.env由专门的运维人员管理和发布。
 
 #### 2、增加默认时区
 
@@ -14,7 +14,7 @@
 
 #### 3、增加日志处理
 
-根据.env中的APP_ENV设置（dev,test,production），production仅输出重要的日志，且日志默认输出到项目根目录下的logs文件夹，名称按APP_NAME和日期定义
+根据.env中的APP_ENV设置（dev/test/production），production仅输出重要的日志，且日志默认输出到项目根目录下的logs文件夹，名称按APP_NAME和日期定义
 
 #### 4、项目增加默认的README.md
 
@@ -23,6 +23,9 @@
 #### 5、取消的功能
 * 取消webtools工具
 * 取消ini支持
+
+#### 6、顶层命名空间的修改
+官方开发工具项目名称为project_name，选择"modules"应用类型时，顶层命名空间为Project_name，my-phalcon-devtools中改为ProjectName
 
 
 二、数据库类项目模版
@@ -43,7 +46,7 @@
     updated_at timestamp comment '更新时间', 
     ```   
 * phalcon命令执行时.env还没有生效，故用phalcon命令创建model前需修改config.php中数据库设置默认值为当前开发环境实际值,如下面的代码片段
-    ``` 
+    ```php
     'database' => [
         'adapter'    => 'Mysql',
         'host'     => getenv('DB_HOST') ?: 'localhost',
@@ -53,9 +56,9 @@
         'charset'    => 'utf8',
     ],
     ```
-* 使用phalcon命令创建模型时，一定要使用 --excludefields=udated_at 参数
+* 使用phalcon命令创建模型时，一定要使用`--excludefields=udated_at`参数
 * 按照如上设置后，插入数据时created_at和updated_at将自动生成，created_at是通过工具生成model的以下代码实现
-    ``` 
+    ```php
    public function initialize()
     {
         $this->setSchema("qin_user");
@@ -163,7 +166,7 @@ API类项目模版都采用了Phalcon提供的MVC微应用框架（Phalcon/Mvc/M
 适合开发直接为客户端提供服务的中间API，可以通过数据库和集成其他API扩展功能
 
 #### 7、modules
-适合开发多模块的复杂应用，目前提供一个CLI接口和一个前端接口，可以通过phalcon的模块命令添加新模块
+适合开发多模块的复杂应用，目前提供一个CLI模块和一个前端站点模块，可以通过phalcon的模块命令添加新模块
 
 六、系统要求
 ---
@@ -182,7 +185,7 @@ API类项目模版都采用了Phalcon提供的MVC微应用框架（Phalcon/Mvc/M
 八、安装和配置
 ---
 
-``` 
+```bash
 # 以下配置可用于linux和macOS
 
 # 第一步：下载my-phalcon-devtools到指定目录，如/home/myname/public
@@ -193,7 +196,10 @@ git clone git@github.com:yinxingping/my-phalcon-devtools.git
 export PTOOLSPATH=/home/myname/public/my-phalcon-devtools
 export PATH=$PTOOLSPATH:$PATH
 
-# 第三步：验证
+# 第三步：保存~/.bashrc后使设置生效
+source ~/.bashrc
+
+# 第四步：验证
 cd /home/myname/Workspace;
 phalcon project my_first_phalcon microweb
 
@@ -209,3 +215,4 @@ https://github.com/phalcon/phalcon-devtools
 
 phalcon官网：
 https://phalconphp.com
+
