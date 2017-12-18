@@ -44,7 +44,7 @@ class Project extends Command
             'name=s'            => 'Name of the new project',
             'enable-webtools'   => 'Determines if webtools should be enabled [optional]',
             'directory=s'       => 'Base path on which project will be created [optional]',
-            'type=s'            => 'Type of the application to be generated (cli, micro, simple, modules, baseapi, simpleapi, fullapi)',
+            'type=s'            => 'Type of the application to be generated (cli, micro, web, modules, baseapi, simpleapi, fullapi)',
             'template-path=s'   => 'Specify a template path [optional]',
             'template-engine=s' => 'Define the template engine, default phtml (phtml, volt) [optional]',
             'use-config-ini'    => 'Use a ini file as configuration file [optional]',
@@ -62,7 +62,7 @@ class Project extends Command
     public function run(array $parameters)
     {
         $projectName    = $this->getOption(['name', 1], null, 'default');
-        $projectType    = $this->getOption(['type', 2], null, 'simple');
+        $projectType    = $this->getOption(['type', 2], null, 'web');
         $projectPath    = $this->getOption(['directory', 3]);
         $templatePath   = $this->getOption(['template-path'], null, TEMPLATE_PATH);
         $enableWebtools = $this->getOption(['enable-webtools', 4], null, false);
@@ -120,7 +120,7 @@ class Project extends Command
         print Color::colorize("\tShows this help text") . PHP_EOL . PHP_EOL;
 
         print Color::head('Example') . PHP_EOL;
-        print Color::colorize('  phalcon project store simple', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+        print Color::colorize('  phalcon project store web', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
         $this->printParameters($this->getPossibleParams());
     }

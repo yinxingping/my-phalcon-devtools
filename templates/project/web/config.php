@@ -33,7 +33,7 @@ return new \Phalcon\Config([
         'libraryDir'     => APP_PATH . '/library/',
         'cacheDir'       => BASE_PATH . '/cache/',
 
-        'baseUri'        => preg_replace('/public([\/\\\\])index.php$/', '', $_SERVER["PHP_SELF"]),
+        'baseUri'        => '/',
     ],
 
     'redis' => [
@@ -50,5 +50,6 @@ return new \Phalcon\Config([
         'adapter' => 'file',
         'name'    => LOG_PATH . '/' . $appName . '_db_' . date('Ymd') . '.log',
     ],
+
 ]);
 

@@ -39,6 +39,8 @@ class FullApi extends ProjectBuilder
         'app/models',
         'app/controllers',
         'app/migrations',
+        'schemas',
+        'logs',
         'public',
         'schemas',
         '.phalcon'

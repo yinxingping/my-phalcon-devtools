@@ -41,6 +41,8 @@ class Cli extends ProjectBuilder
         'app/config',
         'app/tasks',
         'app/models',
+        'schemas',
+        'logs',
         '.phalcon',
     ];
 

@@ -22,7 +22,7 @@ namespace Phalcon\Builder;
 
 use Phalcon\Builder\Project\Cli;
 use Phalcon\Builder\Project\Micro;
-use Phalcon\Builder\Project\Simple;
+use Phalcon\Builder\Project\Web;
 use Phalcon\Builder\Project\Modules;
 use Phalcon\Builder\Project\BaseApi;
 use Phalcon\Builder\Project\SimpleApi;
@@ -40,7 +40,7 @@ use SplFileInfo;
 class Project extends Component
 {
     CONST TYPE_MICRO   = 'micro';
-    CONST TYPE_SIMPLE  = 'simple';
+    CONST TYPE_WEB = 'web';
     CONST TYPE_MODULES = 'modules';
     CONST TYPE_CLI     = 'cli';
     CONST TYPE_BASEAPI    = 'baseapi';
@@ -51,7 +51,7 @@ class Project extends Component
      * Current Project Type
      * @var string
      */
-    private $currentType = self::TYPE_SIMPLE;
+    private $currentType = self::TYPE_WEB;
 
     /**
      * Available Project Types
@@ -59,7 +59,7 @@ class Project extends Component
      */
     private $_types = [
         self::TYPE_MICRO   => Micro::class,
-        self::TYPE_SIMPLE  => Simple::class,
+        self::TYPE_WEB  => Web::class,
         self::TYPE_MODULES => Modules::class,
         self::TYPE_CLI     => Cli::class,
         self::TYPE_BASEAPI    => BaseApi::class,

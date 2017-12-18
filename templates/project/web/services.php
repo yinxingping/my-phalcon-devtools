@@ -8,7 +8,7 @@ use Phalcon\Session\Adapter\Redis as SessionAdapter;
 use Phalcon\Flash\Direct as Flash;
 
 $di->setShared('config', function () {
-    return @@configLoader@@;
+    return include APP_PATH . "/config/config.php";
 });
 
 $di->setShared('profiler', function () {
@@ -85,10 +85,6 @@ $di->setShared('db', function () {
     return $connection;
 });
 
-$di->setShared('logger', function () {
-    return Phalcon\Logger\Factory::load($this->getConfig()->logger);
-});
-
 /*
  * Memory仅当次请求时起作用，适合于开发环境
  */
@@ -98,6 +94,10 @@ $di->setShared('modelsMetadata', function () {
     } else {
         return new Phalcon\Mvc\Model\MetaData\Memory();
     }
+});
+
+$di->setShared('logger', function () {
+    return Phalcon\Logger\Factory::load($this->getConfig()->logger);
 });
 
 /*
