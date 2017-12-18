@@ -203,10 +203,14 @@ class Modules extends ProjectBuilder
      *
      * @return $this
      */
-    private function createControllerBase()
+    private function createControllers()
     {
         $getFile = $this->options->get('templatePath') . '/project/modules/ControllerBase.php';
         $putFile = $this->options->get('projectPath') . 'app/modules/frontend/controllers/ControllerBase.php';
+        $this->generateFile($getFile, $putFile, $this->options->get('name'));
+
+        $getFile = $this->options->get('templatePath') . '/project/modules/IndexController.php';
+        $putFile = $this->options->get('projectPath') . 'app/modules/frontend/controllers/IndexController.php';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
         return $this;
@@ -270,11 +274,11 @@ class Modules extends ProjectBuilder
             ->createConfig()
             ->createBootstrapFiles()
 //            ->createHtaccessFiles()
-            ->createControllerBase()
+            ->createControllers()
             ->createDefaultTasks()
             ->createModules()
-            ->createIndexViewFiles()
-            ->createControllerFile();
+            ->createIndexViewFiles();
+//            ->createControllerFile();
 //            ->createHtrouterFile();
 
         $this->options->contains('enableWebTools') && Tools::install($this->options->get('projectPath'));

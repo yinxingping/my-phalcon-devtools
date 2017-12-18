@@ -3,7 +3,6 @@
 use Phalcon\Loader;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
-@@iniConfigImport@@
 
 $di->setShared('config', function () {
     return @@configLoader@@;

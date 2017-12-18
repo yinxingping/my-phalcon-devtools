@@ -122,7 +122,12 @@ abstract class ProjectBuilder
 
             $str = file_get_contents($getFile);
             if ($name) {
-                $namespace = ucfirst($name);
+                $nameParts = explode('_', $name);
+                $namespace = '';
+                foreach ($nameParts as $part) {
+                    $namespace .= ucfirst($part);
+                }
+                // $namespace = ucfirst($name);
                 if (strtolower(trim($name)) == 'default') {
                     $namespace = 'MyDefault';
                 }
