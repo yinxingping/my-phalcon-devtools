@@ -20,6 +20,11 @@
 
 可以利用README.md对项目功能、环境、部署等进行说明
 
+#### 5、取消的功能
+* 取消webtools工具
+* 取消ini支持
+
+
 二、数据库类项目模版
 ---
 #### 1、增加了数据库访问日志
@@ -135,6 +140,7 @@ API类项目模版都采用了Phalcon提供的MVC微应用框架（Phalcon/Mvc/M
 #### 3、目前提供的网站类项目模版
 * microweb
 * web
+* modules
 
 五、my-phalcon-devtools项目模版介绍
 ---
@@ -154,7 +160,7 @@ API类项目模版都采用了Phalcon提供的MVC微应用框架（Phalcon/Mvc/M
 适合开发封装底层数据库访问的基础API
 
 #### 6、fullapi
-适合开发直接为客户端提供服务的中间API，可以通过集成其他API访问和自身数据库扩展功能
+适合开发直接为客户端提供服务的中间API，可以通过数据库和集成其他API扩展功能
 
 #### 7、modules
 适合开发多模块的复杂应用，目前提供一个CLI接口和一个前端接口，可以通过phalcon的模块命令添加新模块
@@ -165,7 +171,15 @@ API类项目模版都采用了Phalcon提供的MVC微应用框架（Phalcon/Mvc/M
 * Phalcon >= 3.2.0
 * Composer
 
-七、相关链接
+七、推荐环境配置
+---
+* 操作系统：Linux
+* Web服务器：Nginx + PHP-FPM 7.0+
+* Phalcon >= 3.2.0
+* 数据库：MySQL
+* 缓存和Session：Redis
+
+八、相关链接
 ---
 
 phalcon-devtools原项目地址：

@@ -42,12 +42,12 @@ class Project extends Command
     {
         return [
             'name=s'            => 'Name of the new project',
-            'enable-webtools'   => 'Determines if webtools should be enabled [optional]',
+//            'enable-webtools'   => 'Determines if webtools should be enabled [optional]',
             'directory=s'       => 'Base path on which project will be created [optional]',
-            'type=s'            => 'Type of the application to be generated (cli, microweb, web, modules, baseapi, simpleapi, fullapi)',
+            'type=s'            => 'Type of the application (cli, microweb, web, modules, baseapi, simpleapi, fullapi)',
             'template-path=s'   => 'Specify a template path [optional]',
             'template-engine=s' => 'Define the template engine, default phtml (phtml, volt) [optional]',
-            'use-config-ini'    => 'Use a ini file as configuration file [optional]',
+//            'use-config-ini'    => 'Use a ini file as configuration file [optional]',
             'trace'             => 'Shows the trace of the framework in case of exception [optional]',
             'help'              => 'Shows this help [optional]',
         ];
@@ -113,7 +113,7 @@ class Project extends Command
         print Color::colorize('  Creates a project') . PHP_EOL . PHP_EOL;
 
         print Color::head('Usage:') . PHP_EOL;
-        print Color::colorize('  project [name] [type] [directory] [enable-webtools]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+        print Color::colorize('  project [name] [type] [directory]'/* [enable-webtools]'*/, Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
         print Color::head('Arguments:') . PHP_EOL;
         print Color::colorize('  help', Color::FG_GREEN);
