@@ -24,6 +24,9 @@
 * 取消webtools工具
 * 取消ini支持
 
+#### 6、顶层命名空间的修改
+官方开发工具项目名称为project_name，选择"modules"应用类型时，顶层命名空间为Project_name，my-phalcon-devtools中改为ProjectName
+
 
 二、数据库类项目模版
 ---
