@@ -3,54 +3,36 @@
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Application;
 
-error_reporting(E_ALL);
-
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
+define('LOG_PATH', BASE_PATH . '/logs');
+
+include(BASE_PATH . '/vendor/autoload.php');
+$dotenv = new Dotenv\Dotenv(BASE_PATH);
+$dotenv->load();
+
+if (getenv('APP_ENV') == 'production') {
+    error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
+} else {
+    error_reporting(E_ALL);
+}
+ini_set('date.timezone', 'Asia/Shanghai');
+ini_set('display_errors', 'off');
+ini_set('error_log', LOG_PATH . '/' .getenv('APP_NAME', 'appname') . '_error_' . date('Ymd') . '.log');
 
 try {
 
-    /**
-     * The FactoryDefault Dependency Injector automatically registers the services that
-     * provide a full stack framework. These default services can be overidden with custom ones.
-     */
     $di = new FactoryDefault();
-
-    /**
-     * Include general services
-     */
     require APP_PATH . '/config/services.php';
-
-    /**
-     * Include web environment specific services
-     */
     require APP_PATH . '/config/services_web.php';
-
-    /**
-     * Get config service for use in inline setup below
-     */
     $config = $di->getConfig();
-
-    /**
-     * Include Autoloader
-     */
     include APP_PATH . '/config/loader.php';
-
-    /**
-     * Handle the request
-     */
     $application = new Application($di);
 
-    /**
-     * Register application modules
-     */
     $application->registerModules([
         'frontend' => ['className' => '@@namespace@@\Modules\Frontend\Module'],
     ]);
 
-    /**
-     * Include routes
-     */
     require APP_PATH . '/config/routes.php';
 
     echo str_replace(["\n","\r","\t"], '', $application->handle()->getContent());

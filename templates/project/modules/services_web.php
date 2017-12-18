@@ -8,9 +8,6 @@ use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Flash\Direct as Flash;
 
-/**
- * Registering a router
- */
 $di->setShared('router', function () {
     $router = new Router();
 
@@ -19,9 +16,6 @@ $di->setShared('router', function () {
     return $router;
 });
 
-/**
- * The URL component is used to generate all kinds of URLs in the application
- */
 $di->setShared('url', function () {
     $config = $this->getConfig();
 
@@ -31,9 +25,6 @@ $di->setShared('url', function () {
     return $url;
 });
 
-/**
- * Starts the session the first time some component requests the session service
- */
 $di->setShared('session', function () {
     $session = new SessionAdapter();
     $session->start();
@@ -41,23 +32,18 @@ $di->setShared('session', function () {
     return $session;
 });
 
-/**
- * Register the session flash service with the Twitter Bootstrap classes
- */
 $di->set('flash', function () {
     return new Flash([
-        'error'   => 'alert alert-danger',
-        'success' => 'alert alert-success',
-        'notice'  => 'alert alert-info',
-        'warning' => 'alert alert-warning'
+        'error'   => 'text-danger',
+        'success' => 'text-success',
+        'notice'  => 'text-info',
+        'warning' => 'text-warning'
     ]);
 });
 
-/**
-* Set the default namespace for dispatcher
-*/
 $di->setShared('dispatcher', function() {
     $dispatcher = new Dispatcher();
     $dispatcher->setDefaultNamespace('@@namespace@@\Modules\Frontend\Controllers');
     return $dispatcher;
 });
+

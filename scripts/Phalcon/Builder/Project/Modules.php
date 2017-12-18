@@ -58,6 +58,8 @@ class Modules extends ProjectBuilder
         'app/modules/cli/tasks',
         'cache',
         'cache/volt',
+        'schemas',
+        'logs',
         'public',
         'public/img',
         'public/css',
@@ -264,16 +266,16 @@ class Modules extends ProjectBuilder
     {
         $this
             ->buildDirectories()
-            ->getVariableValues()
+//            ->getVariableValues()
             ->createConfig()
             ->createBootstrapFiles()
-            ->createHtaccessFiles()
+//            ->createHtaccessFiles()
             ->createControllerBase()
             ->createDefaultTasks()
             ->createModules()
             ->createIndexViewFiles()
-            ->createControllerFile()
-            ->createHtrouterFile();
+            ->createControllerFile();
+//            ->createHtrouterFile();
 
         $this->options->contains('enableWebTools') && Tools::install($this->options->get('projectPath'));
 

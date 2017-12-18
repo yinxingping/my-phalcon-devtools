@@ -5,16 +5,10 @@ use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 @@iniConfigImport@@
 
-/**
- * Shared configuration service
- */
 $di->setShared('config', function () {
     return @@configLoader@@;
 });
 
-/**
- * Database connection is created based in the parameters defined in the configuration file
- */
 $di->setShared('db', function () {
     $config = $this->getConfig();
 
@@ -27,25 +21,15 @@ $di->setShared('db', function () {
         'charset'  => $config->database->charset
     ];
 
-    if ($config->database->adapter == 'Postgresql') {
-        unset($params['charset']);
-    }
-
     $connection = new $class($params);
 
     return $connection;
 });
 
-/**
- * If the configuration specify the use of metadata adapter use it or use memory otherwise
- */
 $di->setShared('modelsMetadata', function () {
     return new MetaDataAdapter();
 });
 
-/**
- * Configure the Volt service for rendering .volt templates
- */
 $di->setShared('voltShared', function ($view) {
     $config = $this->getConfig();
 
@@ -83,3 +67,4 @@ $di->setShared('voltShared', function ($view) {
 
     return $volt;
 });
+
