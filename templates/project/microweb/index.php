@@ -1,6 +1,6 @@
 <?php
 
-use Phalcon\Di\FactoryDefault;
+use Phalcon\Di;
 use Phalcon\Mvc\Micro;
 
 define('BASE_PATH', dirname(__DIR__));
@@ -22,7 +22,7 @@ ini_set('error_log', LOG_PATH . '/' .getenv('APP_NAME', 'appname') . '_error_' .
 
 try {
 
-    $di = new FactoryDefault();
+    $di = new Di();
     include APP_PATH . '/config/services.php';
     $config = $di->getConfig();
     include APP_PATH . '/config/loader.php';
