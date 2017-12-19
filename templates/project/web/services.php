@@ -4,15 +4,10 @@ use Phalcon\Mvc\View;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
-use Phalcon\Session\Adapter\Redis as SessionAdapter;
 use Phalcon\Flash\Direct as Flash;
 
 $di->setShared('config', function () {
     return include APP_PATH . "/config/config.php";
-});
-
-$di->setShared('profiler', function () {
-    return new Phalcon\Db\Profiler();
 });
 
 $di->setShared('url', function () {
@@ -53,10 +48,31 @@ $di->setShared('view', function () {
 $di->setShared('db', function () {
     $config = $this->getConfig();
 
-    // 记录sql详情
+    $class = 'Phalcon\Db\Adapter\Pdo\\' . $config->database->adapter;
+    $params = [
+        'host'     => $config->database->host,
+        'username' => $config->database->username,
+        'password' => $config->database->password,
+        'dbname'   => $config->database->dbname,
+        'charset'  => $config->database->charset
+    ];
+
+    $connection = new $class($params);
+
+    $connection->setEventsManager($this->getEventManager());
+
+    return $connection;
+});
+
+$di->setShared('profiler', function () {
+    return new Phalcon\Db\Profiler();
+});
+
+$di->setShared('eventsManager', function () {
     $eventManager = new \Phalcon\Events\Manager();
     $profiler = $this->getProfiler();
 
+    // 记录sql详情
     $eventManager->attach(
         'db',
         function ($event, $connection) use ($profiler) {
@@ -69,20 +85,7 @@ $di->setShared('db', function () {
         }
     );
 
-    $class = 'Phalcon\Db\Adapter\Pdo\\' . $config->database->adapter;
-    $params = [
-        'host'     => $config->database->host,
-        'username' => $config->database->username,
-        'password' => $config->database->password,
-        'dbname'   => $config->database->dbname,
-        'charset'  => $config->database->charset
-    ];
-
-    $connection = new $class($params);
-
-    $connection->setEventsManager($eventManager);
-
-    return $connection;
+    return $eventManager;
 });
 
 /*
@@ -113,7 +116,11 @@ $di->set('flash', function () {
 });
 
 $di->setShared('session', function () {
-    $session = new SessionAdapter($this->getConfig()->redis);
+    if (getenv('APP_ENV') === 'production') {
+        $session = new \Phalcon\Session\Adapter\Redis($this->getConfig()->redis);
+    } else {
+        $session = new \Phalcon\Session\Adapter\Files();
+    }
     $session->start();
 
     return $session;
