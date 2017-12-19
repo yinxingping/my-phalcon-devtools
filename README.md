@@ -25,8 +25,12 @@
 * 取消ini支持
 
 #### 6、顶层命名空间的修改
+
 官方开发工具项目名称为project_name，选择"modules"应用类型时，顶层命名空间为Project_name，my-phalcon-devtools中改为ProjectName
 
+#### 7、替换依赖注入器
+
+官方开发工具为了降低初学者学习门槛，直接使用`Phalcon\Di\FactoryDefault`容器，这个容器默认包含了22个服务；my-phalcon-devtools改为空的容器`Phalcon\Di`,根据项目需求用到哪个服务注册哪个服务，最大程度降低占用，提升性能
 
 二、数据库类项目模版
 ---
@@ -140,10 +144,9 @@ API类项目模版都采用了Phalcon提供的MVC微应用框架（Phalcon/Mvc/M
 * PhpEngine
 * Smarty （后续增加）
 
-#### 3、目前提供的网站类项目模版
+#### 3、目前提供的网站类项目模版(有待完善)
 * microweb
 * web
-* modules
 
 五、my-phalcon-devtools项目模版介绍
 ---
