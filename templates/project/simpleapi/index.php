@@ -1,6 +1,6 @@
 <?php
 
-use Phalcon\Di\FactoryDefault;
+use Phalcon\Di;
 use Phalcon\Mvc\Micro;
 
 define('BASE_PATH', dirname(__DIR__));
@@ -24,13 +24,25 @@ $appName = getenv('APP_NAME', 'appname');
 
 try {
 
-    $di = new FactoryDefault();
+    $di = new Di();
 
     $di->setShared('logger', function () use ($appName) {
         return Phalcon\Logger\Factory::load([
             'adapter' => 'file',
             'name'    => LOG_PATH . '/' . $appName . '_info_' . date('Ymd') . '.log',
         ]);
+    });
+
+    $di->setShared('request', function () {
+        return new \Phalcon\Http\Request();
+    });
+
+    $di->setShared('response', function () {
+        return new \Phalcon\Http\Response();
+    });
+
+    $di->setShared('router', function () {
+        return new \Phalcon\Mvc\Router();
     });
 
     include APP_PATH . '/config/status.php';
