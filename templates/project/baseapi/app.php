@@ -1,6 +1,6 @@
 <?php
 
-use Phalcon\Mvc\Micro\Collection as MicroCollection;
+use \Phalcon\Mvc\Micro\Collection as MicroCollection;
 
 $index = new MicroCollection();
 $index->setHandler('IndexController', true);
@@ -16,5 +16,4 @@ $app->notFound(
         $app->response->send();
     }
 );
-
 

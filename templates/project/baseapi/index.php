@@ -1,14 +1,14 @@
 <?php
 
-use Phalcon\Di\FactoryDefault;
-use Phalcon\Mvc\Micro;
+use \Phalcon\Di;
+use \Phalcon\Mvc\Micro;
 
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
 define('LOG_PATH', BASE_PATH . '/logs');
 
 include(BASE_PATH . '/vendor/autoload.php');
-$dotenv = new Dotenv\Dotenv(BASE_PATH);
+$dotenv = new \Dotenv\Dotenv(BASE_PATH);
 $dotenv->load();
 
 if (getenv('APP_ENV') == 'production') {
@@ -22,7 +22,7 @@ ini_set('error_log', LOG_PATH . '/' .getenv('APP_NAME', 'appname') . '_error_' .
 
 try {
 
-    $di = new FactoryDefault();
+    $di = new Di();
     include APP_PATH . '/config/services.php';
     $config = $di->getConfig();
     include APP_PATH . '/config/loader.php';
