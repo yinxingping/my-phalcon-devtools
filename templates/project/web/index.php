@@ -29,7 +29,7 @@ try {
 
     echo str_replace(["\n","\r","\t"], '', $application->handle()->getContent());
 
-} catch (\Exception $e) {
-    echo $e->getMessage() . '<br>';
-    echo '<pre>' . $e->getTraceAsString() . '</pre>';
+} catch (\Throwable $e) {
+    $di->get('logger')->error($e->getMessage() . $e->getTraceAsString());
+    $application->response->setStatusCode(500, 'Server error')->send();
 }

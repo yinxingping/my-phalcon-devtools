@@ -30,7 +30,7 @@ try {
     include APP_PATH . '/app.php';
     $app->handle();
 
-} catch (\Exception $e) {
-      echo $e->getMessage() . '<br>';
-      echo '<pre>' . $e->getTraceAsString() . '</pre>';
+} catch (\Throwable $e) {
+    $di->get('logger')->error($e->getMessage() . $e->getTraceAsString());
+    $app->response->setStatusCode(500, 'Server error')->send();
 }
