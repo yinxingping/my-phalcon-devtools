@@ -46,7 +46,7 @@ class Project extends Command
             'directory=s'       => 'Base path on which project will be created [optional]',
             'type=s'            => 'Type of the application (cli, microweb, web, modules, baseapi, simpleapi, fullapi)',
             'template-path=s'   => 'Specify a template path [optional]',
-            'template-engine=s' => 'Define the template engine, default phtml (phtml, volt) [optional]',
+            'template-engine=s' => 'Define the template engine, default volt (phtml, volt) [optional]',
 //            'use-config-ini'    => 'Use a ini file as configuration file [optional]',
             'trace'             => 'Shows the trace of the framework in case of exception [optional]',
             'help'              => 'Shows this help [optional]',
@@ -67,7 +67,7 @@ class Project extends Command
         $templatePath   = $this->getOption(['template-path'], null, TEMPLATE_PATH);
         $enableWebtools = $this->getOption(['enable-webtools', 4], null, false);
         $useConfigIni   = $this->getOption('use-config-ini');
-        $templateEngine = $this->getOption(['template-engine'], null, "phtml");
+        $templateEngine = $this->getOption(['template-engine'], null, "volt");
 
         $builder = new ProjectBuilder([
             'name'           => $projectName,
