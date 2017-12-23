@@ -12,13 +12,13 @@ $dotenv = new \Dotenv\Dotenv(BASE_PATH);
 $dotenv->load();
 
 if (getenv('APP_ENV') == 'production') {
+    ini_set('display_errors', 'off');
+    ini_set('error_log', LOG_PATH . '/' .getenv('APP_NAME', 'appname') . '_error_' . date('Ymd') . '.log');
     error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
 } else {
     error_reporting(E_ALL);
 }
 ini_set('date.timezone', 'Asia/Shanghai');
-ini_set('display_errors', 'off');
-ini_set('error_log', LOG_PATH . '/' .getenv('APP_NAME', 'appname') . '_error_' . date('Ymd') . '.log');
 
 try {
 
