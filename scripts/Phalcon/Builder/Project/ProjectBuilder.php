@@ -122,12 +122,20 @@ abstract class ProjectBuilder
 
             $str = file_get_contents($getFile);
             if ($name) {
-                $nameParts = explode('_', $name);
-                $namespace = '';
-                foreach ($nameParts as $part) {
-                    $namespace .= ucfirst($part);
+                if (strpos($name, '_') !== false) {
+                    $nameParts = explode('_', $name);
+                } elseif (strpos($name, '-') !== false) {
+                    $nameParts = explode('-', $name);
                 }
-                // $namespace = ucfirst($name);
+
+                if (isset($nameParts)) {
+                    $namespace = '';
+                    foreach ($nameParts as $part) {
+                        $namespace .= ucfirst($part);
+                    }
+                } else {
+                    $namespace = ucfirst($name);
+                }
                 if (strtolower(trim($name)) == 'default') {
                     $namespace = 'MyDefault';
                 }
