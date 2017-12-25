@@ -27,29 +27,25 @@ try {
 
     $di = new Di();
 
-    $di->setShared('logger', function () use ($appName) {
-        return Phalcon\Logger\Factory::load([
-            'adapter' => 'file',
-            'name'    => LOG_PATH . '/' . $appName . '_info_' . date('Ymd') . '.log',
-        ]);
-    });
-
     $di->setShared('request', function () {
         return new \Phalcon\Http\Request();
     });
-
     $di->setShared('response', function () {
         return new \Phalcon\Http\Response();
     });
-
     $di->setShared('router', function () {
         return new \Phalcon\Mvc\Router();
     });
+    $di->setShared('config', function () use ($appName) {
+        return include APP_PATH . "/config/config.php";
+    });
 
-    include APP_PATH . '/config/status.php';
+    $config = $di->getConfig();
+    $di->setShared('logger', function () use ($config) {
+        return \Phalcon\Logger\Factory($config->logger);
+    });
 
     $app = new Micro($di);
-
     include APP_PATH . '/app.php';
 
     $app->handle();

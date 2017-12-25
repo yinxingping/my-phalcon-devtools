@@ -55,8 +55,8 @@ class SimpleApi extends ProjectBuilder
         $putFile = $this->options->get('projectPath') . 'app/app.php';
         $this->generateFile($getFile, $putFile, $this->options->get('name'));
 
-        $getFile = $this->options->get('templatePath') . '/project/simpleapi/status.php';
-        $putFile = $this->options->get('projectPath') . 'app/config/status.php';
+        $getFile = $this->options->get('templatePath') . '/project/simpleapi/config.php';
+        $putFile = $this->options->get('projectPath') . 'app/config/config.php';
         $this->generateFile($getFile, $putFile);
 
         $getFile = $this->options->get('templatePath') . '/project/simpleapi/composer.json';
