@@ -5,6 +5,12 @@
 ## 待完成功能
 1. 数据库日志、metadata缓存和session还没有用改为本项目通用修改
 
+## 具体环境要求
+
+0. PHP-FPM >= 7.0
+1. PHP框架：Phalcon >= 3.2
+2. 开发工具：[my-phalcon-devtools](https://github.com/yinxingping/my-phalcon-devtools)
+
 ## 注意事项
 
 1. 用工具生成model时要使用参数：--excludefields=updated_at

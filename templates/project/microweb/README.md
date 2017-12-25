@@ -1,8 +1,14 @@
-### 主要功能
+# 主要功能
 
 适合于开发简单的微网站，如官网、微信小程序等网站
 
-### 注意事项
+## 具体环境要求
+
+0. PHP-FPM >= 7.0
+1. PHP框架：Phalcon >= 3.2
+2. 开发工具：[my-phalcon-devtools](https://github.com/yinxingping/my-phalcon-devtools)
+
+## 注意事项
 
 1. 用工具生成model时要使用参数：--excludefields=updated_at
 2. 用工具生成model时.env部分没有生效，所以需要在config.php中修改数据库连接相关默认参数为实际开发环境的参数
