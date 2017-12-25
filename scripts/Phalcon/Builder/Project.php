@@ -127,8 +127,9 @@ class Project extends Component
         $root = new SplFileInfo($this->path->getRootPath('public'));
         $fsUtils = new FsUtils();
 
-        //项目类别名称中带api时，不生成css和js目录
-        if (strpos($this->currentType, 'api') === false) {
+        //项目类别名称中带api时或模板为cli，不生成css和js目录
+        if (strpos($this->currentType, 'api') === false &&
+            strpos($this->currentType, 'cli') === false) {
             $fsUtils->setDirectoryPermission($root, ['css' => 0777, 'js' => 0777]);
         }
 

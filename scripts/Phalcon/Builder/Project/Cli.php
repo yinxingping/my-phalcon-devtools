@@ -148,7 +148,7 @@ class Cli extends ProjectBuilder
         $this
             ->buildDirectories()
             ->createProjectFiles()
-            ->getVariableValues()
+            // ->getVariableValues()
             ->createConfig()
             ->createBootstrapFiles()
             ->createDefaultTasks()
