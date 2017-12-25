@@ -46,6 +46,27 @@ class Cli extends ProjectBuilder
         '.phalcon',
     ];
 
+    private function createProjectFiles()
+    {
+        $getFile = $this->options->get('templatePath') . '/project/cli/composer.json';
+        $putFile = $this->options->get('projectPath') . '/composer.json';
+        $this->generateFile($getFile, $putFile);
+
+        $getFile = $this->options->get('templatePath') . '/project/cli/env.example';
+        $putFile = $this->options->get('projectPath') . '/env.example';
+        $this->generateFile($getFile, $putFile);
+
+        $getFile = $this->options->get('templatePath') . '/project/cli/env.example';
+        $putFile = $this->options->get('projectPath') . '/.env';
+        $this->generateFile($getFile, $putFile);
+
+        $getFile = $this->options->get('templatePath') . '/project/cli/README.md';
+        $putFile = $this->options->get('projectPath') . '/README.md';
+        $this->generateFile($getFile, $putFile);
+
+        return $this;
+    }
+
     /**
      * Creates the configuration
      *
@@ -126,7 +147,8 @@ class Cli extends ProjectBuilder
     {
         $this
             ->buildDirectories()
-            ->getVariableValues()
+            ->createProjectFiles()
+            // ->getVariableValues()
             ->createConfig()
             ->createBootstrapFiles()
             ->createDefaultTasks()
