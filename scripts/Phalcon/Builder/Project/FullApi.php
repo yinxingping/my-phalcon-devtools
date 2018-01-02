@@ -42,7 +42,6 @@ class FullApi extends ProjectBuilder
         'schemas',
         'logs',
         'public',
-        'schemas',
         '.phalcon'
     ];
 
