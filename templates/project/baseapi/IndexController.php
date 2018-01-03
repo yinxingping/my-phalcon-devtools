@@ -4,8 +4,8 @@ class IndexController extends ControllerBase
 {
 
     protected function addRules() {
-        /* addRules举例
         $this->rules = [
+        /* addRules举例
             'mobile' => new \Phalcon\Validation\Validator\Regex(
                 [
                     'pattern' => '/^1[3-9][0-9]{9}$/',
@@ -31,8 +31,8 @@ class IndexController extends ControllerBase
                     'code' => VALID_ERROR,
                 ]
             ),
-        ];
         */
+        ];
     }
 
 }
