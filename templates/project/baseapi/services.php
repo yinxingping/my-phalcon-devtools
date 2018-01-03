@@ -83,3 +83,11 @@ $di->setShared('logger', function () {
     return \Phalcon\Logger\Factory::load($this->getConfig()->logger);
 });
 
+//密码加密使用
+$di->setShared('security', function () {
+    $security = new \Phalcon\Security();
+
+    $security->setWorkFactor(12);
+
+    return $security;
+});

@@ -34,7 +34,6 @@ return new \Phalcon\Config([
         'modelsDir'      => APP_PATH . '/models/',
         'controllersDir' => APP_PATH . '/controllers/',
         'migrationsDir'  => APP_PATH . '/migrations/',
-        'baseUri'        => '/',
     ],
 
     'logger' => [
