@@ -1,7 +1,17 @@
 <?php
 
-class ControllerBase extends \Phalcon\Mvc\Controller
+abstract class ControllerBase extends \Phalcon\Mvc\Controller
 {
+    protected $validation;
+    protected $rules;
+
+    abstract protected function addRules();
+
+    public function onConstruct()
+    {
+        $this->validation = new \Phalcon\Validation();
+        $this->addRules();
+    }
 
     public function indexAction()
     {
@@ -10,7 +20,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 
     protected function sendContent($status, $messages=null)
     {
-        $messages = $messages ?? STATUS[$status]['message'] ?? '无话可说';
+        $messages = $messages ?? STATUS[$status]['message'] ?? '成功';
 
         $this->response->setJsonContent([
             'code' => STATUS[$status]['code'],
@@ -18,16 +28,14 @@ class ControllerBase extends \Phalcon\Mvc\Controller
             'detail' => $messages,
         ]);
 
-        $this->writeDbLog();
-
         $this->response->send();
     }
 
-    protected function getMessages(\Phalcon\Mvc\Model &$model)
+    protected function getMessages($messages)
     {
-        $messages = [];
-        foreach ($model->getMessages() as $message) {
-            $messages[] = [
+        $messageArray = [];
+        foreach ($messages as $message) {
+            $messageArray[] = [
                 'field' => $message->getField(),
                 'type' => $message->getType(),
                 'code' => $message->getCode(),
@@ -35,9 +43,12 @@ class ControllerBase extends \Phalcon\Mvc\Controller
             ];
         }
 
-        return $messages;
+        return $messageArray;
     }
 
+    /*
+     * 仅对需要过滤的参数进行验证
+     */
     protected function getJsonRawBody(Array $filter = [])
     {
         $params = $this->request->getJsonRawBody();
@@ -49,26 +60,21 @@ class ControllerBase extends \Phalcon\Mvc\Controller
             $params->$k = trim($v);
         }
 
+        $validators = [];
+        foreach ($filter as $field) {
+            if (array_key_exists($field, $this->rules)) {
+                $validators[] = [$field, $this->rules[$field]];
+            }
+        }
+        $this->validation->setValidators($validators);
+        $messages = $this->validation->validate($params);
+        if ($messages->count() != 0) {
+            $this->sendContent('valid_error', $this->getMessages($messages));
+            exit;
+        }
+
         return $params;
     }
 
-    // 记录SQL日志
-    private function writeDbLog()
-    {
-        $config = $this->getDI()->getConfig();
-        $profiler = $this->profiler;
-
-        if ($profiler->getNumberTotalStatements() != 0) {
-            $profiles = $profiler->getProfiles();
-            $dbLogger = Phalcon\Logger\Factory::load($config['dbLogger']);
-
-            $logStr = '|sqlTotal:' . $profiler->getNumberTotalStatements() . ',msTotal:' . round($profiler->getTotalElapsedSeconds() * 1000, 3);
-            foreach ($profiles as $profile) {
-                $logStr .= '|sql:' . $profile->getSQLStatement() . '|ms:' . round($profile->getTotalElapsedSeconds() * 1000, 3);
-            }
-
-            $dbLogger->info($logStr);
-        }
-    }
 }
 

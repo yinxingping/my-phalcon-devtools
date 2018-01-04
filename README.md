@@ -56,7 +56,7 @@
         'host'     => getenv('DB_HOST') ?: 'localhost',
         'username' => getenv('DB_USERNAME') ?: 'root',
         'password' => getenv('DB_PASSWORD') ?: 'test123456',
-        'dbname'   => getenv('DB_DATABASE') ?: '',
+        'dbname'   => getenv('DB_DATABASE') ?: 'database',
         'charset'    => 'utf8',
     ],
     ```
@@ -91,7 +91,6 @@
 * microweb
 * web
 * baseapi
-* fullapi
 
 三、API类项目模版
 ---
@@ -166,7 +165,7 @@ API类项目模版都采用了Phalcon提供的MVC微应用框架（Phalcon/Mvc/M
 适合开发封装底层数据库访问的基础API
 
 #### 6、fullapi
-适合开发直接为客户端提供服务的中间API，可以通过数据库和集成其他API扩展功能
+适合开发直接为客户端提供服务的中间API
 
 #### 7、modules
 适合开发多模块的复杂应用，目前提供一个CLI模块和一个前端站点模块，可以通过phalcon的模块命令添加新模块
