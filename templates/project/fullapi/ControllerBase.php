@@ -57,7 +57,9 @@ abstract class ControllerBase extends \Phalcon\Mvc\Controller
                 unset($params->$k);
                 continue;
             }
-            $params->$k = trim($v);
+            if (is_string($v)) {
+                $params->$k = trim($v);
+            }
         }
 
         $validators = [];
