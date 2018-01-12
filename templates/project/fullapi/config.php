@@ -16,9 +16,13 @@ return new \Phalcon\Config([
         'controllersDir' => APP_PATH . '/controllers/',
     ],
 
-    'redis' => [
-        'host'       => getenv('REDIS_HOST') ?: '127.0.0.1',
-        'port'       => getenv('REDIS_PORT') ?: '6379',
+    'session' => [
+        'host'     => getenv('REDIS_HOST') ?: '127.0.0.1',
+        'port'     => getenv('REDIS_PORT') ?: '6379',
+        'uniqueId' => 'session',
+        'lifetime' => 86400,//1天
+        'prefix'   => $appName . '_',
+        'adapter'  => 'redis',
     ],
 
     'logger' => [

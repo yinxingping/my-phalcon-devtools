@@ -18,7 +18,7 @@ $di->setShared('router', function () {
 
 $di->setShared('session', function () {
     if (getenv('APP_ENV') === 'production') {
-        $session = new \Phalcon\Session\Adapter\Redis($this->getConfig()->redis);
+        $session = new \Phalcon\Session\Adapter\Redis($this->getConfig()->session);
     } else {
         $session = new \Phalcon\Session\Adapter\Files();
     }
