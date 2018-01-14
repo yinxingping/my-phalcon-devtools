@@ -36,10 +36,7 @@ class FullApi extends ProjectBuilder
     protected $projectDirectories = [
         'app',
         'app/config',
-        'app/models',
         'app/controllers',
-        'app/migrations',
-        'schemas',
         'logs',
         'public',
         '.phalcon'
