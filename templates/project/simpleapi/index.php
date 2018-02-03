@@ -24,7 +24,7 @@ ini_set('date.timezone', 'Asia/Shanghai');
 
 
 try {
-
+    $app = new Micro();
     $di = new Di();
 
     $di->setShared('request', function () {
@@ -45,7 +45,7 @@ try {
         return \Phalcon\Logger\Factory($config->logger);
     });
 
-    $app = new Micro($di);
+    $app->setDi($di);
     include APP_PATH . '/app.php';
 
     $app->handle();

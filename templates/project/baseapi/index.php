@@ -22,11 +22,14 @@ ini_set('date.timezone', 'Asia/Shanghai');
 
 try {
 
+    $app = new Micro();
     $di = new Di();
+
     include APP_PATH . '/config/services.php';
     $config = $di->getConfig();
     include APP_PATH . '/config/loader.php';
-    $app = new Micro($di);
+
+    $app->setDi($di);
     include APP_PATH . '/app.php';
 
     $app->handle();
