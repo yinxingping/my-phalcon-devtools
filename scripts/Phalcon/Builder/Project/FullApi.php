@@ -37,6 +37,7 @@ class FullApi extends ProjectBuilder
         'app',
         'app/config',
         'app/controllers',
+        'app/library',
         'logs',
         'public',
         '.phalcon'
@@ -121,6 +122,15 @@ class FullApi extends ProjectBuilder
         return $this;
     }
 
+    private function createLibrary()
+    {
+        $getFile = $this->options->get('templatePath') . '/project/fullapi/API.php';
+        $putFile = $this->options->get('projectPath') . 'app/library/API.php';
+        $this->generateFile($getFile, $putFile);
+
+        return $this;
+    }
+
     /**
      * Build project
      *
@@ -132,6 +142,7 @@ class FullApi extends ProjectBuilder
             ->buildDirectories()
             ->createConfig()
             ->createBootstrapFile()
+            ->createLibrary()
             ->createControllers();
 
         return true;

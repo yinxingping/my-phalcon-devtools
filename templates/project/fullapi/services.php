@@ -17,11 +17,8 @@ $di->setShared('router', function () {
 });
 
 $di->setShared('session', function () {
-    if (getenv('APP_ENV') === 'production') {
-        $session = new \Phalcon\Session\Adapter\Redis($this->getConfig()->session);
-    } else {
-        $session = new \Phalcon\Session\Adapter\Files();
-    }
+    $sessionConfig = $this->getConfig()->session;
+    $session = new \Phalcon\Session\Adapter\Redis((Array)$sessionConfig);
     $session->start();
 
     return $session;
@@ -32,7 +29,10 @@ $di->setShared('dispatcher', function () {
 });
 
 $di->setShared('logger', function () {
-    return \Phalcon\Logger\Factory::load($this->getConfig()->logger);
+    $logger = \Phalcon\Logger\Factory::load($this->getConfig()->logger);
+    $logger->setFormatter(new \Phalcon\Logger\Formatter\Line('%type%|%date%|%message%'));
+
+    return $logger;
 });
 
 $di->setShared('security', function () {
@@ -43,3 +43,6 @@ $di->setShared('security', function () {
     return $security;
 });
 
+$di->setShared('api', function () {
+    return new \API();
+});

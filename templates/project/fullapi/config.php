@@ -14,14 +14,14 @@ return new \Phalcon\Config([
 
     'application' => [
         'controllersDir' => APP_PATH . '/controllers/',
+        'libraryDir'     => APP_PATH . '/library/',
     ],
 
     'session' => [
-        'host'     => getenv('REDIS_HOST') ?: '127.0.0.1',
-        'port'     => getenv('REDIS_PORT') ?: '6379',
-        'uniqueId' => 'session',
+        'host'     => getenv('SESSION_REDIS_HOST') ?: '127.0.0.1',
+        'port'     => getenv('SESSION_REDIS_PORT') ?: '6379',
         'lifetime' => 86400,//1天
-        'prefix'   => $appName . '_',
+        'prefix'   => ':' .$appName . ':',
         'adapter'  => 'redis',
     ],
 
