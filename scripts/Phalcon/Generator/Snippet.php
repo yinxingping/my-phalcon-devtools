@@ -236,19 +236,8 @@ EOD;
      */
     public function initialize()
     {
+        parent::initialize();
 %s
-
-        $this->addBehavior(
-            new \Phalcon\Mvc\Model\Behavior\Timestampable(
-                [
-                    'beforeCreate' => [
-                        'field' => 'created_at',
-                        'format'=> 'Y-m-d H:i:s',
-                    ]
-                ]
-            )
-        );
-
     }
 EOD;
         return PHP_EOL.sprintf($templateInitialize, rtrim(join('', $pieces))).PHP_EOL;

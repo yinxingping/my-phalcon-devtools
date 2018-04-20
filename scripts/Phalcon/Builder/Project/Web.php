@@ -208,6 +208,18 @@ class Web extends ProjectBuilder
     }
 
     /**
+     * create model base
+     */
+    private function createModelBase()
+    {
+        $getFile = $this->options->get('templatePath') . '/project/baseapi/ModelBase.php';
+        $putFile = $this->options->get('projectPath') . 'app/models/ModelBase.php';
+        $this->generateFile($getFile, $putFile);
+
+        return $this;
+    }
+
+    /**
      * Build project
      *
      * @return bool
@@ -224,6 +236,7 @@ class Web extends ProjectBuilder
             ->createIndexViewFiles()
             // ->createControllerFile()
             ->createControllers()
+            ->createModelBase()
             /* ->createHtrouterFile()*/;
 
         $this->options->contains('enableWebTools') && Tools::install($this->options->get('projectPath'));

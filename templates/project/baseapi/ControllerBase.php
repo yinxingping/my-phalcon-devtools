@@ -1,12 +1,18 @@
 <?php
 
+use Phalcon\Validation\Validator\{
+    Digit,
+    StringLength,
+    Regex,
+    InclusionIn,
+    Between,
+    Date as ValidDate
+};
+
 abstract class ControllerBase extends \Phalcon\Mvc\Controller
 {
     protected $validation;
     protected $rules;
-
-    abstract protected function addRules();
-
 
     public function onConstruct()
     {
@@ -16,12 +22,20 @@ abstract class ControllerBase extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-        $this->sendContent('ok','测试成功');
+        $this->sendContent('ok');
     }
 
     protected function sendContent($status, $messages=null)
     {
-        $messages = $messages ?? STATUS[$status]['message'] ?? '成功';
+        if ($status == 'db_error' && is_array($messages)) {
+            foreach ($messages as $message) {
+                if ($message['type'] == 'Uniqueness') {
+                    $status = 'unique_error';
+                }
+            }
+        }
+
+        $messages = $messages ?? STATUS[$status]['message'] ?? '';
 
         $this->response->setJsonContent([
             'code' => STATUS[$status]['code'],
@@ -30,7 +44,6 @@ abstract class ControllerBase extends \Phalcon\Mvc\Controller
         ]);
 
         $this->writeDbLog();
-
         $this->response->send();
     }
 
@@ -52,33 +65,56 @@ abstract class ControllerBase extends \Phalcon\Mvc\Controller
     /*
      * 仅对需要过滤的参数进行验证
      */
-    protected function getJsonRawBody(Array $filter = [])
+    protected function getJsonRawBody(Array $useFields = [])
     {
         $params = $this->request->getJsonRawBody();
+        $this->paramsHandler($params, $useFields);
+
+        return $params;
+    }
+
+    protected function getQuery(Array $useFields = [])
+    {
+        $params = $this->request->getQuery();
+        $params = (Object)$params; //由于之前取POST数据时取成了对象，这里处理成统一格式
+        $this->paramsHandler($params, $useFields);
+
+        return $params;
+    }
+
+    /*
+     * 仅对需要过滤的参数进行验证
+     */
+    private function paramsHandler(&$params, &$useFields)
+    {
         foreach ($params as $k=>$v) {
-            if (!in_array($k, $filter)) {
+            if (!in_array($k, $useFields)) {
                 unset($params->$k);
                 continue;
             }
             if (is_string($v)) {
                 $params->$k = trim($v);
             }
+            if (is_numeric($v)) {
+                $params->$k = (int)$v;
+            }
         }
 
         $validators = [];
-        foreach ($filter as $field) {
+        foreach ($useFields as $field) {
             if (array_key_exists($field, $this->rules)) {
                 $validators[] = [$field, $this->rules[$field]];
             }
         }
-        $this->validation->setValidators($validators);
-        $messages = $this->validation->validate($params);
-        if ($messages->count() != 0) {
-            $this->sendContent('valid_error', $this->getMessages($messages));
-            exit;
-        }
 
-        return $params;
+        if (count($validators) != 0) {
+            $this->validation->setValidators($validators);
+            $messages = $this->validation->validate($params);
+            if ($messages->count() != 0) {
+                $this->sendContent('valid_error', $this->getMessages($messages));
+                exit;
+            }
+        }
     }
 
     // 记录SQL日志
@@ -98,6 +134,28 @@ abstract class ControllerBase extends \Phalcon\Mvc\Controller
 
             $dbLogger->info($logStr);
         }
+    }
+
+    protected function addRules()
+    {
+        $this->rules = [
+
+        ];
+    }
+
+    //仅返回指定keys的字段,key不为数字时需要进行key转换
+    public function getPartData($data, $keys)
+    {
+        $newArr = [];
+        foreach ($keys as $k => $v) {
+            if (is_numeric($k)) {
+                $newArr[$v] = is_array($data) ? $data[$v] : $data->$v;
+            } else {
+                $newArr[$v] = is_array($data) ? $data[$k] : $data->$k;
+            }
+        }
+
+        return $newArr;
     }
 
 }

@@ -39,7 +39,6 @@ class BaseApi extends ProjectBuilder
         'app/models',
         'app/controllers',
         'app/migrations',
-        'logs',
         'public',
         'schemas',
         '.phalcon'
@@ -125,6 +124,18 @@ class BaseApi extends ProjectBuilder
     }
 
     /**
+     * create model base
+     */
+    private function createModelBase()
+    {
+        $getFile = $this->options->get('templatePath') . '/project/baseapi/ModelBase.php';
+        $putFile = $this->options->get('projectPath') . 'app/models/ModelBase.php';
+        $this->generateFile($getFile, $putFile);
+
+        return $this;
+    }
+
+    /**
      * Build project
      *
      * @return bool
@@ -136,6 +147,7 @@ class BaseApi extends ProjectBuilder
             ->getVariableValues()
             ->createConfig()
             ->createBootstrapFile()
+            ->createModelBase()
             ->createControllers();
 
         return true;

@@ -2,7 +2,7 @@
 
 defined('BASE_PATH') || define('BASE_PATH', getenv('BASE_PATH') ?: realpath(dirname(__FILE__) . '/../..'));
 defined('APP_PATH') || define('APP_PATH', BASE_PATH . '/app');
-defined('LOG_PATH') || define('LOG_PATH', BASE_PATH . '/logs');
+defined('LOG_PATH') || define('LOG_PATH', '/usr/local/var/log/phalcon');
 
 include APP_PATH . '/config/status.php';
 
@@ -25,9 +25,22 @@ return new \Phalcon\Config([
         'charset'    => 'utf8',
     ],
 
+    'metaDataConfig' => [
+        'host'       => getenv('CACHE_REDIS_HOST') ?: 'localhost',
+        'port'       => getenv('CACHE_REDIS_PORT') ?: '6379',
+        'lifetime'   => 86400,//1天
+        'statsKey'   => 'phalcon_metadata',
+        'index'      => getenv('CACHE_REDIS_INDEX') ?: 2,
+    ],
+
     'redis' => [
-        'host'       => getenv('REDIS_HOST') ?: '127.0.0.1',
-        'port'       => getenv('REDIS_PORT') ?: '6379',
+        'host'           => getenv('STORAGE_REDIS_HOST') ?: 'localhost',
+        'port'           => getenv('STORAGE_REDIS_PORT') ?: '6380',
+        'timeout'        => 2, //s
+        'retry_interval' => 100, //ms
+        'read_timeout'   => 1, //s
+        'database'       => getenv('STORAGE_REDIS_INDEX') ?: 15,
+        'prefix'         => 'phalcon:',
     ],
 
     'application' => [

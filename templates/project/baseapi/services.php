@@ -44,11 +44,10 @@ $di->setShared('db', function () {
  * Memory生命周期为当次请求，用于开发
  */
 $di->setShared('modelsMetadata', function () {
-    if (getenv('APP_ENV') === 'production') {
-        return new \Phalcon\Mvc\Model\Metadata\Redis($this->getConfig()->redis);
-    } else {
-        return new \Phalcon\Mvc\Model\MetaData\Memory();
-    }
+    $metaDataConfig = $this->getConfig()->metaDataConfig;
+    $metadata = new \Phalcon\Mvc\Model\Metadata\Redis((Array)$metaDataConfig);
+
+    return $metadata;
 });
 
 $di->setShared('eventsManager', function () {
@@ -71,6 +70,28 @@ $di->setShared('eventsManager', function () {
     return $eventManager;
 });
 
+/**
+ * 数据存储
+ */
+$di->setShared('redis', function () {
+    $redisConfig = $this->getConfig()->redis;
+
+    $redis = new Redis();
+    $redis ->connect(
+        $redisConfig->host,
+        $redisConfig->port,
+        $redisConfig->timeout ?? 0,
+        null,
+        $redisConfig->retry_interval ?? 0,
+        $redisConfig->read_timeout ?? 0
+    );
+    $redis->select($redisConfig->database ?? 0);
+    $redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_NONE);
+    $redis->setOption(Redis::OPT_PREFIX, $redisConfig->prefix ?? '');
+
+    return $redis;
+});
+
 $di->setShared('transactionManager', function () {
     return new \Phalcon\Mvc\Model\Transaction\Manager();
 });
@@ -80,7 +101,10 @@ $di->setShared('profiler', function () {
 });
 
 $di->setShared('logger', function () {
-    return \Phalcon\Logger\Factory::load($this->getConfig()->logger);
+    $logger = \Phalcon\Logger\Factory::load($this->getConfig()->logger);
+    $logger->setFormatter(new \Phalcon\Logger\Formatter\Line('%type%|%date%|%message%'));
+
+    return $logger;
 });
 
 $di->setShared('security', function () {

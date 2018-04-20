@@ -139,6 +139,18 @@ class Cli extends ProjectBuilder
     }
 
     /**
+     * create model base
+     */
+    private function createModelBase()
+    {
+        $getFile = $this->options->get('templatePath') . '/project/baseapi/ModelBase.php';
+        $putFile = $this->options->get('projectPath') . 'app/models/ModelBase.php';
+        $this->generateFile($getFile, $putFile);
+
+        return $this;
+    }
+
+    /**
      * Build project
      *
      * @return bool
@@ -152,6 +164,7 @@ class Cli extends ProjectBuilder
             ->createConfig()
             ->createBootstrapFiles()
             ->createDefaultTasks()
+            ->createModelBase()
             ->createLauncher();
 
         print Color::success(sprintf('You can create a symlink to %s to invoke the application', $this->options->get('projectPath') . 'run')) . PHP_EOL;
